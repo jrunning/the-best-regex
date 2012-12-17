@@ -46,47 +46,52 @@ The file structure of the project might look like this.
     │   ├─ ruby/
     │   │  └─ ...
     │   └─ test-cases/
+    │      ├─ email-address-html5.yml
+    │      ├─ email-address-rfc5322.yml
     │      ├─ github-username.yml
     │      ├─ postal-code-ca.yml
     │      └─ postal-code-us.yml
-    ├─ github-username.js
-    ├─ github-username.notes.md
-    ├─ github-username.rb
-    ├─ postal-code-ca.js
-    ├─ postal-code-ca.notes.md
-    ├─ postal-code-ca.pl
-    ├─ postal-code-ca.perl6.pl
-    ├─ postal-code-ca.rb
-    ├─ postal-code-us.js
-    ├─ postal-code-us.notes.md
-    ├─ postal-code-us.pl
+    ├─ email-address-html5.yml
+    ├─ email-address-rfc5322.yml
+    ├─ github-username.yml
+    ├─ postal-code-ca.yml
+    ├─ postal-code-us.yml
+    ├─ postal-code-ca.yml
     └─ Rakefile
 
 ### Implementation files
 
-The root directory (`/`) contains one file for each implementation of each
-regular expression. Files should have descriptive names that, when
-lexicographically sorted, have a logical order.
+The root directory (`/`) contains one file for each type of datum we want
+regular expressions for. They will be in a format that's machine-readable and
+(especially) human-readable, such as YAML. Files should have descriptive names
+that, when lexicographically sorted, have a logical order.
 
 If a regular expression is country-specific then the last part of the filename
 before the first `.` should be the country's ISO country code. Words in a
-filename should be separated by hyphens. Other conventions, such as the
-hypothetical Perl 6 instance above, or deeper hierarchy in the event that the
-number of files grows prohibitively large, will be determined as necessary.
+filename should be separated by hyphens. Other conventions or deeper hierarchy
+in the event that the number of files grows prohibitively large will be
+determined as necessary.
 
-The internal structure of an implementation file itself is TBD, and will depend
-on the target environment, but in general should be the simplest file that can
-be easily imported/included/required in that environment but should strive
-for readability.
+The internal structure of an implementation file itself is TBD. Among the
+elements it will have are:
 
-### Implementation notes files
-
-Each set of implementation files (e.g. `github-username.*` should have a
-counterpart at the same level containing, in Markdown format, implementation
-notes, links to or excerpts from specifications or resources from which the
-implementations were derived, and any necessary license notes regarding same.
-This file will have the same name (until the first dot) followed by `.notes.md`,
-e.g. `github-username.notes.md`. The structure of this file is TBD.
+  * A very brief **title**
+  * A **notes** section, formatted in Markdown, for further description,
+    implementation notes, links to or excerpts from specifications or resources
+    from which the implementations were derived, and any necessary license notes
+    regarding same.
+  * A **captures** section describing the capturing groups and their names
+    and indices
+  * An **implementations** section meeting the following requirements (to
+    achieve the above Goals):
+    * It must accommodate multiple implementations.
+    * A simple method of "tagging" must be devised to indicate, both to human
+      readers and to automated testing processes, what environments each
+      implementation is expected to work in.
+    * Each implementation must be expressed in two ways: A single-line regular
+      expression, and a multi-line regular expression with comments.
+    * Each implementation must have the same capturing groups. Named captures
+      are strongly preferred for all environments that support them.
 
 ### Test suites
 
@@ -101,14 +106,12 @@ for all environments. The structure of these files is TBD, but inspiration may
 be taken from [twitter/twitter-text-conformance], which is shared among the
 tests for twitter-text-rb, twitter-text-js, etc.
 
-Each file in `/test/test-cases` will have the same name (until the first dot) as
-the implementation files it targets, e.g. `postal-code-ca.yml` (supposing YAML
-is used as the necessary common format) would contain test cases targeting
-`postal-code-ca.js`, `postal-code-ca.pl` and so on.
+Each file in `/test/test-cases` will have the same name as the implementation
+files it targets, e.g. `postal-code-ca.yml`.
 
 [twitter/twitter-text-conformance]: https://github.com/twitter/twitter-text-conformance
 
-### Automated test runner
+### Automated testing
 
 Ideally it will be possible to run tests for all environments with very little
 fuss. Make, Rake, or a similar utility may be used to initiate tests across
