@@ -104,7 +104,8 @@ requirements of the test methodology or framework chosen for that environment.
 environments, so that only a single file need be edited to introduce a new test
 for all environments. The structure of these files is TBD, but inspiration may
 be taken from [twitter/twitter-text-conformance], which is shared among the
-tests for twitter-text-rb, twitter-text-js, etc.
+tests for twitter-text-rb, twitter-text-js, etc. **TODO:** Should test cases
+just go in the implementation files?
 
 Each file in `/test/test-cases` will have the same name as the implementation
 files it targets, e.g. `postal-code-ca.yml`.
